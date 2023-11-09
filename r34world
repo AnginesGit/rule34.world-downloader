@@ -32,7 +32,7 @@ while IFS= read -r code; do
     # download and verify if the file extension is correct
     for extension in "${exts_list[@]}"
     do
-        curl -# -e "https://rule34.world" -L "$url_in.$extension" -o "$title/$code.$extension"
+        curl --silent -e "https://rule34.world" -L "$url_in.$extension" -o "$title/$code.$extension"
         size=$(ls -l "$title/$code.$extension" | cut -d ' ' -f 5)
         if [ $((size)) -le 900 ]
         then
