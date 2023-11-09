@@ -9,4 +9,4 @@ https://rule34.world/view/<ID>
 
 ```
 ## Help
-- this script only can get the first page of playlist (60 posts), urls getting x pages doesn't work for playlist, only searching tags, if anyone can help with that, will be appreciated.
+- this script only can get the first page of playlist (60 posts), urls getting x pages doesn't work for playlist, only searching tags. If anyone can help with this, I will appreciated you.
