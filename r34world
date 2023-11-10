@@ -4,11 +4,12 @@
 codes_file="codes" # temporal file for the code posts
 exts_list=( "mp4" "mov720.mp4" "mov.mp4" "pic.jpg" "picsmall.jpg" )
 
-echo -e "\e[34mPaste an url playlist:\e[0m"
+echo -e "\e[34mPaste id or url playlist:\e[0m"
 
 read URL
 
-URL=$(echo $URL | sed "s@https://@@")
+id=$(echo "$URL" | grep -Eo '[0-9]*')
+URL="rule34.world/playlists/view/$id"
 
 # get title
 title=$( curl -Ls $URL | grep -o 'class="text fill">[^<]*' | cut -d '>' -f 2 )
