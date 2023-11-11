@@ -8,7 +8,7 @@ echo -e "\e[34mPaste id or url playlist:\e[0m"
 
 read URL
 
-id=$(echo "$URL" | grep -Eo '[0-9]*')
+id=$(echo "$URL" | sed "s@rule34.world@@"| grep -Eo '[0-9]*')
 URL="rule34.world/playlists/view/$id"
 
 # get title
@@ -21,16 +21,36 @@ echo -e "\e[34mDownloading Playlist: $title\e[0m"
 
 curl -Ls $URL | grep -oP "/post/.*?\"" | sed "s@/post/@@" | sed 's@"@@' > $codes_file
 
+total_posts=$(wc -l $codes_file | cut -d " " -f 1)
+post_iteration=0
 
-# read every url lines of codes.txt
+print_progress() {
+    local count=$1
+    local total_count=$2
+    
+    percentage=$((count * 100 / total_count))
+    char_length=30
+    bar_length=$((count * char_length/ total_count))
+
+    progress_bar="["
+    for ((j=0; j<bar_length; j++)); do
+        progress_bar+="="
+    done
+    for ((j=bar_length; j<char_length; j++)); do
+        progress_bar+=" "
+    done
+    progress_bar+="]"
+
+    echo -ne "\e[33m$progress_bar    $count/$total_count\e[0m\r"
+}
+
+
 while IFS= read -r code; do
 
-    rest="${code%???}"             # get the range first numbers before 3 last numbers
+    rest="${code%???}"                                                  # numbers before 3 last numbers
+    url_in="https://rule34storage.b-cdn.net/posts/$rest/$code/$code"    #database pattern
 
-    #database pattern
-    url_in="https://rule34storage.b-cdn.net/posts/$rest/$code/$code"
-
-    # download and verify if the file extension is correct
+    # download and verify if the file extension used is correct
     for extension in "${exts_list[@]}"
     do
         curl --silent -e "https://rule34.world" -L "$url_in.$extension" -o "$title/$code.$extension"
@@ -40,8 +60,11 @@ while IFS= read -r code; do
 #            echo -e "\e[35m$code is not $extension\e[0m"
             rm "$title/$code.$extension"
         else
-            echo -e "\e[33m$code.$extension downloaded.\e[0m"
+
+            ((post_iteration++))
+            print_progress $post_iteration $total_posts
             break
+
         fi
     done
 
@@ -52,4 +75,5 @@ rm $codes_file
 
 #finished
 
-echo -e "\e[32mPlaylist $title download complete.\e[0m"
+echo ""
+echo -e "\e[32mPlaylist $title downloaded.\e[0m"
