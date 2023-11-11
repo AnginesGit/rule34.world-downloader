@@ -1,8 +1,44 @@
 #!/bin/bash
 #
 #variables
+help="\n
+-d <directory>       save playlist in a directory\n
+-i     only download images\n
+-v     only download videos\n
+-h     show this help\n
+"
+
 codes_file="codes" # temporal file for the code posts
 exts_list=( "mp4" "mov720.mp4" "mov.mp4" "pic.jpg" "picsmall.jpg" )
+directory=""
+#specify directory
+while getopts ":d:ivh" opt; do
+  case $opt in
+    d)
+      directory="$OPTARG/"
+      echo "directory = $directory"
+      ;;
+    i)
+      exts_list=( "pic.jpg" "picsmall.jpg" )
+      ;;
+    v)
+      exts_list=( "mp4" "mov720.mp4" "mov.mp4" )
+      ;;
+    h)
+      echo -e $help
+      exit 0
+      ;;
+    \?)
+      echo -e "\e[31mArguments error\e[0m"
+      echo $help
+      ;;
+    :)
+      echo "option $OPTARG require an argument. Read help using -h"
+      exit 1
+      ;;
+  esac
+done
+
 
 echo -e "\e[34mPaste id or url playlist:\e[0m"
 
@@ -14,8 +50,14 @@ URL="rule34.world/playlists/view/$id"
 # get title
 title=$( curl -Ls $URL | grep -o 'class="text fill">[^<]*' | cut -d '>' -f 2 )
 
+# check if playlist url exist
+if [ "$title" == "" ]; then
+    echo -e "\e[31mThe playlist doesn't exist or invalid url."
+    exit 1
+fi
+
 # create the playlist folder
-mkdir "$title"
+mkdir -p "$directory$title"
 
 echo -e "\e[34mDownloading Playlist: $title\e[0m"
 
@@ -53,20 +95,16 @@ while IFS= read -r code; do
     # download and verify if the file extension used is correct
     for extension in "${exts_list[@]}"
     do
-        curl --silent -e "https://rule34.world" -L "$url_in.$extension" -o "$title/$code.$extension"
-        size=$(ls -l "$title/$code.$extension" | cut -d ' ' -f 5)
+        curl --silent -e "https://rule34.world" -L "$url_in.$extension" -o "$directory$title/$code.$extension"
+        size=$(ls -l "$directory$title/$code.$extension" | cut -d ' ' -f 5)
         if [ $((size)) -le 900 ]
         then
-#            echo -e "\e[35m$code is not $extension\e[0m"
-            rm "$title/$code.$extension"
-        else
-
-            ((post_iteration++))
-            print_progress $post_iteration $total_posts
-            break
-
-        fi
+            rm "$directory$title/$code.$extension"
+        fi 
     done
+
+    ((post_iteration++))
+    print_progress $post_iteration $total_posts
 
 
 done < $codes_file
