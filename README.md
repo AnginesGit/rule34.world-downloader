@@ -1,7 +1,7 @@
 # rule34.world-playlist-downloader
 rule34.world playlist downloader first version.
 
-[image](https://github.com/AnginesGit/rule34.world-playlist-downloader/assets/44559634/ee59a968-efa4-4697-b635-5e6f2fa8c1a6) 
+![image](/img/example.png) 
   
   ---
 ## Usage
