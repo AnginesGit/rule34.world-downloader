@@ -8,7 +8,7 @@ paste playlist id or url:
 https://rule34.world/playlists/view/<ID>
 
 ```
- 
+![image](https://github.com/AnginesGit/rule34.world-playlist-downloader/assets/44559634/ee59a968-efa4-4697-b635-5e6f2fa8c1a6) 
   
 ---
 ## Help
