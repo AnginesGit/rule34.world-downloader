@@ -32,4 +32,4 @@ https://rule34.world/playlists/view/<ID>
 
 ---
 ## Help
-- this script only can get the first page of playlist (60 posts), urls getting x pages doesn't work for playlist, only searching tags. If anyone can help with this, I will appreciated you.
+- this script only can get the first page of playlist (60 posts) using curl, because playlist paginating is trigger by Javascript buttons, If anyone can help with this explaining me how or contributing code, I will appreciated you.
