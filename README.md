@@ -1,5 +1,5 @@
-# rule34.world-playlist-downloader
-rule34.world playlist downloader first version.
+# rule34.world-downloader
+rule34.world downloader.
 
 ![image](/img/example.png) 
   
@@ -13,23 +13,24 @@ rule34.world playlist downloader first version.
     -h          show help
 ```
 ### examples:
-simple usage, a carpet will be created on the same directory
+Download playlist in the same directory. 
 ```
-$ ./r34world
+$ ./playlist.sh
 paste playlist id or url:
 https://rule34.world/playlists/view/<ID>
 
 ```
 
-Only Images on your home
+Only User Bookmarks Images on your home.
 
 ```
-$ ./r34world -id ~
-paste playlist id or url:
-https://rule34.world/playlists/view/<ID>
+$ ./bookmarks.sh -id ~
+username: superhot
 ```
 
 
 ---
-## Help
-- this script only can get the first page of playlist (60 posts) using curl, because playlist paginating is trigger by Javascript buttons, If anyone can help with this explaining me how or contributing code, I will appreciated you.
+## To do
+- [x] Download all posts unless 60
+- [ ] User Bookmarks Downloader
+- [ ] User Playlists chooser
