@@ -4,13 +4,22 @@ rule34.world downloader.
 ![image](/img/example.png) 
   
   ---
+
+- User BookMarks
+- Playlists
+
+- ~~User Playlists~~
+
+
 ## Usage
 ```
     -p  <URL-ID>    direct playlist download
     -b  <USERNAME>  direct user bookmarks download
-    -d  <PATH>      specify directory to save playlist carpet.
-    -i              only images (and thumbnails of videos).
-    -v              only videos.
+    -d  <PATH>      specify an output directory
+
+    -i              only images (and thumbnails of videos)
+    -v              only videos
+    -S              install the script ($PATH)
 
     -h              show help
 ```

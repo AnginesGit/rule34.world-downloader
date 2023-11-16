@@ -240,7 +240,7 @@ menu() {
 }
 
 # PARAMETERS
-while getopts ":d:ivhp:b:" opt; do
+while getopts ":d:ivhp:b:S" opt; do
   case $opt in
     d)
       directory="$OPTARG/"
@@ -272,6 +272,24 @@ while getopts ":d:ivhp:b:" opt; do
 
       ;;
 
+    S)
+        if test -f ~/.zshrc
+        then
+            echo "PATH=\$PATH:$(pwd)" >> ~/.zshrc
+        fi
+        if test -f ~/.bashrc 
+        then
+            echo "PATH=\$PATH:$(pwd)" >> ~/.bashrc
+        fi
+
+        if ! test -f ~/.bashrc && ! test -f ~./zshrc
+        then
+            echo -e "\e[31m.bashrc and .zshrc files doesn't exist in home\n Install failed.\e[0m"
+            exit 1
+        fi
+        echo -e "\e[32mr34world installed\e[0m"
+        exit 0
+        ;;
     \?)
       echo -e "\e[31mArguments error\e[0m";echo -e "$help";;
     :)
