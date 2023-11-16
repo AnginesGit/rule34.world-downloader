@@ -162,9 +162,6 @@ download_bookmarks () {
 
 
     post_iteration=0
-    echo "temino"
-exit 1
-
 
     # DOWNLOAD EVERY Bookmark
     while IFS= read -r code; do
