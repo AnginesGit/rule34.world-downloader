@@ -14,7 +14,7 @@ Rule34.world Downloader
 "
 
 #variables
-exts_list=( "mp4" "mov.mp4" "mov720.mp4" "pic.jpg" )
+exts_list=( "mp4" "mov720.mp4" "mov.mp4" "pic.jpg" )
 directory=""
 asker=true
 
