@@ -14,6 +14,7 @@ rule34.world downloader.
 
     -h              show help
 ```
+if direct parameters misses the script show you a menu to choose.
 ### examples:
 Download playlist in the same directory. 
 ```
@@ -32,6 +33,8 @@ $ ./r34world -id ~
 username: superhot
 ...
 ```
+
+The script work faster if you specify only images on a only images playlist.
 
 
 ---
