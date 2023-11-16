@@ -247,7 +247,6 @@ while getopts ":d:ivhp:b:" opt; do
   case $opt in
     d)
       directory="$OPTARG/"
-      echo "directory = $directory"
       ;;
     i)
       exts_list=( "pic.jpg" )
