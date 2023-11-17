@@ -16,7 +16,7 @@ Rule34.world Downloader
 #variables
 exts_list=( "mp4" "mov.mp4" "mov720.mp4" "pic.jpg" )
 directory=""
-asker=true
+task="menu"
 
 print_progress() {
 
@@ -86,12 +86,9 @@ download_playlist () {
     #DOWNLOAD PLAYLIST
     for (( i = 60 ; i <= $total_posts + 60 ; i=$i+60 )); do
         curl -e "https://rule34.world" -Ls "https://rule34.world/api/playlist-item?PlaylistId=$id&Skip=$(($i - 60))&Take=$i&DisableTotal=false" | grep -o '"id":[^,]*' | cut -d ':' -f 2 >> ".temp/$codes_file"
-        echo "$i/$total_posts"
     done
 
-    #local total_posts=$(wc -l ".temp/$codes_file" | cut -d " " -f 1)
     local post_iteration=0
-
 
     while IFS= read -r code; do
 
@@ -256,20 +253,13 @@ while getopts ":d:ivhp:b:S" opt; do
       exit 0
       ;;
     p)
-
       playlist_id_get=$OPTARG
-      download_playlist
-      exit 0
-      rm -drf ".temp"
-
+      playlist_id_get=$(echo "$playlist_id_get" | sed "s@rule34.world@@"| grep -Eo '[0-9]*')
+      task="playlist"
       ;;
     b)
-
       username_get=$OPTARG
-      download_bookmarks
-      exit 0
-      rm -drf ".temp"
-
+      task="bookmarks"
       ;;
 
     S)
@@ -291,7 +281,7 @@ while getopts ":d:ivhp:b:S" opt; do
         exit 0
         ;;
     \?)
-      echo -e "\e[31mArguments error\e[0m";echo -e "$help";;
+      echo -e "\e[31mArguments error\e[0m";echo -e "$help"; exit 1;;
     :)
       echo "option $OPTARG require an argument. Read help using -h";exit 1;;
   esac
@@ -301,6 +291,16 @@ done
 # https://rule34.world/api/playlist?UserId=$id&OrderBy=0&Skip=0&Take=60&DisableTotal=false
 # https://rule34.world/api/playlist-item?PlaylistId=$id&Skip=0&Take=60&DisableTotal=false
 
-menu
-rm -drf ".temp"
-exit 0
+case $task in
+    "menu")
+        menu
+        ;;
+    "playlist")
+        download_playlist
+        ;;
+    "bookmarks")
+        download_bookmarks
+        ;;
+esac
+
+rm -df ".temp"
